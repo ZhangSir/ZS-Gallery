@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ZS Gallery</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment_main_gallery">图库</string>
+    <string name="title_activity_detail_gallery">DetailGalleryActivity</string>
+
+    <string name="title_activity_image">ImageActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="transition_name1">transition_name1</string>
+    <string name="transition_name2">transition_name2</string>
+    <string name="transition_name3">transition_name3</string>
+
+</resources>

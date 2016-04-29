@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_16">
+
+    <ImageView
+        android:id="@+id/iv_main_gallery_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="图库主界面Item"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/dp_8"
+        android:orientation="vertical"
+        android:background="@color/translation_half">
+        <TextView
+            android:id="@+id/tv_main_gallery_item_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/text_2"
+            android:text="88"/>
+
+        <TextView
+            android:id="@+id/tv_main_gallery_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/text_2"
+            android:text="88"/>
+    </LinearLayout>
+
+</RelativeLayout>
