@@ -12,9 +12,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.itzs.zsgallery.BaseActivity;
 import com.itzs.zsgallery.R;
+import com.itzs.zsgallery.util.SystemUtil;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainGalleryFragment.OnFragmentInteractionListener {
@@ -32,13 +34,17 @@ public class MainActivity extends BaseActivity
     }
 
     private void initView(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTranslucentStatusBar();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
+//        if (android.os.Build.VERSION.SDK_INT > 18 && null != navigationView) {
+//            navigationView.setPadding(navigationView.getPaddingLeft(), -SystemUtil.getStatusBarHeight(this), navigationView.getPaddingRight(), navigationView.getPaddingBottom());
+//        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

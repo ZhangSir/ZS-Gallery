@@ -1,11 +1,9 @@
 package com.itzs.zsgallery.ui;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -76,10 +74,11 @@ public class DetailGalleryActivity extends BaseActivity {
 
     private void initView(){
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        setTranslucentStatusBar();
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerview_detail_gallery);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -163,16 +162,39 @@ public class DetailGalleryActivity extends BaseActivity {
         mRecyclerView.scrollToPosition(position);
     }
 
+    /**
+     * 设置RecycleView列表中指定子View的TransitionName属性
+     * @param position
+     */
     public void setTrasitionNameToPosition(int position){
-        DetailGalleryAdpter.MyViewHolder holder = (DetailGalleryAdpter.MyViewHolder)(mRecyclerView.findViewHolderForLayoutPosition(position));
-        Log.e("setHolder:" + position, holder.toString());
-        ViewCompat.setTransitionName(holder.ivPic, getString(R.string.transition_name1));
+        if(null != galleryAdpter.getListHolders()){
+            for(int i = 0; i < galleryAdpter.getListHolders().size(); i++ ){
+                DetailGalleryAdpter.MyViewHolder myViewHolder = galleryAdpter.getListHolders().get(i);
+                if(null != myViewHolder && myViewHolder.position == position){
+                    Log.e("clearHolder:" + i, myViewHolder.toString());
+                    ViewCompat.setTransitionName(myViewHolder.ivPic, getString(R.string.transition_name1));
+                    return;
+                }
+            }
+        }
+//        DetailGalleryAdpter.MyViewHolder holder = (DetailGalleryAdpter.MyViewHolder)(mRecyclerView.findViewHolderForLayoutPosition(position));
+//        Log.e("setHolder:" + position, holder.toString());
+//        ViewCompat.setTransitionName(holder.ivPic, getString(R.string.transition_name1));
     }
 
-    public void clearTransitionNameToPosition(int position){
-        DetailGalleryAdpter.MyViewHolder holder = (DetailGalleryAdpter.MyViewHolder)(mRecyclerView.findViewHolderForLayoutPosition(position));
-        Log.e("clearHolder:" + position, holder.toString());
-        ViewCompat.setTransitionName(holder.ivPic, null);
+    /**
+     * 清除RecycleView列表中所有子View的TransitionName属性
+     */
+    public void clearTransitionName(){
+        if(null != galleryAdpter.getListHolders()){
+            for(int i = 0; i < galleryAdpter.getListHolders().size(); i++ ){
+                DetailGalleryAdpter.MyViewHolder myViewHolder = galleryAdpter.getListHolders().get(i);
+                if(null != myViewHolder){
+                    Log.e("clearHolder:" + i, myViewHolder.toString());
+                    ViewCompat.setTransitionName(myViewHolder.ivPic, null);
+                }
+            }
+        }
     }
 
 }

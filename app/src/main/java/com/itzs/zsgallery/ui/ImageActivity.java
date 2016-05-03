@@ -4,20 +4,15 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Looper;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.transition.Transition;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.ImageView;
 
 import com.itzs.zsgallery.BaseActivity;
@@ -27,7 +22,6 @@ import com.itzs.zsgallery.imageloader.ImageLoader;
 import com.itzs.zsgallery.imageloader.ImageViewAware;
 
 import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -52,8 +46,6 @@ public class ImageActivity extends BaseActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
-
-    private Toolbar toolbar;
 
     private ViewPager mViewPager;
 
@@ -152,26 +144,31 @@ public class ImageActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager_image);
         ivTransition = (ImageView) findViewById(R.id.iv_image_transition);
 
+        setTranslucentStatusBar();
+    }
+
+    private void initViewData(){
+        imageAdapter = new ImageAdapter(this, this.listPhotos);
         String currentPath = listPhotos.get(startIndex);
-        String fileName = currentPath.substring(currentPath.lastIndexOf(File.separator), currentPath.length());
+        String fileName = currentPath.substring(currentPath.lastIndexOf(File.separator) + 1, currentPath.length());
         getSupportActionBar().setTitle(fileName);
 
         if(Build.VERSION.SDK_INT >= 21){
             //动态设置共享视图
             ivTransition.setTransitionName(getString(R.string.transition_name1));
-
+            ImageViewAware aware = new ImageViewAware(ivTransition);
+            aware.setTargetSize(targetSize);
+            ImageLoader.getInstance(this).displayImage(listPhotos.get(startIndex), aware, false, null, null);
             addTransitionListener();
+        }else{
+            ivTransition.setVisibility(View.GONE);
+            initViewPagerData();
+            isTransiting = false;
         }
-        ImageViewAware aware = new ImageViewAware(ivTransition);
-        aware.setTargetSize(targetSize);
-        ImageLoader.getInstance(this).displayImage(listPhotos.get(startIndex), aware, false, null, null);
-    }
-
-    private void initViewData(){
-        imageAdapter = new ImageAdapter(this, this.listPhotos);
     }
 
     private void initListener(){
@@ -238,7 +235,7 @@ public class ImageActivity extends BaseActivity {
                     initViewPagerData();
                     isTransiting = false;
                     if(null != DetailGalleryActivity.instance){
-                        DetailGalleryActivity.instance.clearTransitionNameToPosition(startIndex);
+                        DetailGalleryActivity.instance.clearTransitionName();
                     }
                     // Make sure we remove ourselves as a listener
                     transition.removeListener(this);

@@ -13,6 +13,7 @@ import com.itzs.zsgallery.imageloader.ImageViewAware;
 import com.itzs.zsgallery.util.DensityUtil;
 import com.itzs.zsgallery.util.SizeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,8 @@ public class DetailGalleryAdpter extends RecyclerView.Adapter<DetailGalleryAdpte
      */
     private int columnCount = 1;
 
+    private ArrayList<MyViewHolder> ListHolders = new ArrayList<MyViewHolder>();
+
     private ViewGroup.LayoutParams lp = null;
 
     public DetailGalleryAdpter(Context context, List<String> list){
@@ -57,6 +60,7 @@ public class DetailGalleryAdpter extends RecyclerView.Adapter<DetailGalleryAdpte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(!ListHolders.contains(holder)) ListHolders.add(holder);
         holder.position = position;
         this.imageLoader.displayImage(listPhotos.get(position), new ImageViewAware(holder.ivPic), null, null);
     }
@@ -77,6 +81,10 @@ public class DetailGalleryAdpter extends RecyclerView.Adapter<DetailGalleryAdpte
 
     public int getItemWidth() {
         return itemWidth;
+    }
+
+    public ArrayList<MyViewHolder> getListHolders() {
+        return ListHolders;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
